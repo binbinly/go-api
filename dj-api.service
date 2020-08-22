@@ -1,0 +1,13 @@
+[Unit]
+Description=dj-api
+After=network.target
+[Service]
+Type=simple
+User=www
+Group=www
+Environment="API_ENV=product"
+WorkingDirectory=/www/goroot/dj-api-go
+ExecStart=/www/goroot/dj-api-go/dj-api
+Restart=on-failure
+[Install]
+WantedBy=multi-user.target

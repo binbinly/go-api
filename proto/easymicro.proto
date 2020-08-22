@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package pb.easymicro;
+
+service EMService {
+  // 一元调用
+  rpc UnaryCall (EMReq) returns (EMRsp) {}
+  // 服务端流
+  rpc ServerStreamCall (EMReq) returns (stream EMStreamRsp) {}
+  // 游戏数据流
+  rpc GameDataCall(EMReq) returns (stream EMGameDataRsp) {}
+}
+
+
+message EMReq {
+  string traceID = 1;
+  string cmd = 2;
+  int32  seq = 3;
+  bytes  reqData = 4;
+}
+
+message EMRsp {
+  string traceID = 1;
+  string cmd = 2;
+  int32  seq = 3;
+  int32  rspCode = 4;
+  string rspMsg = 5;
+  bytes  rspData = 6;
+}
+
+message EMStreamRsp {
+  string traceID = 1;
+  int32  streamSeq = 2;
+  bytes  streamData = 3;
+}
+
+message EMGameDataRsp {
+  string traceID = 1;
+  int32  streamSeq = 2;
+  repeated string connIDs = 3;
+  int32 gameItemID = 4;
+  bytes  gameData = 5;
+}

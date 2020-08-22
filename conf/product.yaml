@@ -1,0 +1,52 @@
+api:
+  port: 9005
+  run_mode: release
+third:
+  url: http://127.0.0.1:21000
+  jwt_key: lsdkfjweirl*^*&jkh23403jfsldfjh
+nsq:
+  consumer_host:
+    - 192.168.0.136:7201
+  prod_host: 192.168.0.136:6000
+  topic: agency
+  channel: agency
+mysql:
+  host: 127.0.0.1:3306
+  user: root
+  pwd: eca4ea514d612f8c
+  db: dj
+  prefix:
+  idle_conn: 2
+  max_conn: 20
+redis:
+  host: 127.0.0.1:6379
+  db: 0
+  auth:
+  pool_size: 5
+  min_conn: 1
+registry:
+  port: 20001
+  service_name: djAgency
+  name: consul
+  host: 192.168.0.136:8500
+log:
+  level: 1
+  dir: logs
+  console: true
+limit:
+  enable: true
+  qps: 10
+trace:
+  enable: true
+  report_addr: http://127.0.0.1:9411/api/v1/spans
+  sample_type: const
+  sample_rate: 1
+prometheus:
+  enable: true
+  host: 127.0.0.1:8081
+sentry:
+  enable: true
+  dsn: http://07e6e93cd5f046c8b36b96c5947ab899@159.138.145.44:9000/2
+slack:
+  enable: true
+  hook_url: https://hooks.slack.com/services/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

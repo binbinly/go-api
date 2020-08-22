@@ -1,0 +1,36 @@
+variables:
+  PROJECT_NAME: dj-api-go
+  DEPLOY_DEV_PATH: /home/goroot/
+  DEPLOY_MASTER_PATH: /www/goroot/
+
+stages:
+  - deploy
+
+deploy_dev:
+  stage: deploy
+  script:
+    - rsync -avzu --progress --delete -e ssh --exclude='.go.mod' --exclude='.go.sum' $CI_PROJECT_DIR www@192.168.1.200:$DEPLOY_DEV_PATH
+    - ssh root@192.168.1.200 "cd $DEPLOY_DEV_PATH$PROJECT_NAME && chown -R www:www ../$PROJECT_NAME && /usr/local/go/bin/go build . && chmod +x ./dj-api && systemctl restart dj-api"
+  only:
+    - develop
+deploy_master:
+  stage: deploy
+  script:
+    - rsync -avzu --progress --delete -e ssh --exclude='.go.mod' --exclude='.go.sum' $CI_PROJECT_DIR www@159.138.145.44:$DEPLOY_MASTER_PATH
+    - ssh root@159.138.145.44 "cd $DEPLOY_MASTER_PATH$PROJECT_NAME && chown -R www:www ../$PROJECT_NAME && /usr/local/go/bin/go build . && chmod +x ./dj-api && systemctl restart dj-api"
+  only:
+    - master
+deploy_test:
+  stage: deploy
+  script:
+    - rsync -avzu --progress --delete -e ssh --exclude='.go.mod' --exclude='.go.sum' $CI_PROJECT_DIR www@103.103.69.94:$DEPLOY_MASTER_PATH
+    - ssh root@103.103.69.94 "cd $DEPLOY_MASTER_PATH$PROJECT_NAME && chown -R www:www ../$PROJECT_NAME && /usr/local/go/bin/go build . && chmod +x ./dj-api && systemctl restart dj-api"
+  only:
+    - test
+deploy_show:
+  stage: deploy
+  script:
+    - rsync -avzu --progress --delete -e ssh --exclude='.go.mod' --exclude='.go.sum' $CI_PROJECT_DIR www@121.37.252.197:$DEPLOY_MASTER_PATH
+    - ssh root@121.37.252.197 "cd $DEPLOY_MASTER_PATH$PROJECT_NAME && chown -R www:www ../$PROJECT_NAME && /usr/local/go/bin/go build . && chmod +x ./dj-api && systemctl restart dj-api"
+  only:
+    - show

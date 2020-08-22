@@ -1,0 +1,18 @@
+sonar-scanner \
+-Dsonar.projectKey=dj-api \
+-Dsonar.sources=. \
+-Dsonar.host.url=http://192.168.1.200:9000 \
+-Dsonar.login=214a86f000260a0a82358e8796d30a6392019588
+
+docker run \
+-p 1337:1337 \
+--name konga \
+-e "NODE_ENV=production" \
+-e "DB_ADAPTER=postgres" \
+-e "DB_HOST=172.17.84.204" \
+-e "DB_USER=konga" \
+-e "DB_PASSWORD=konga123" \
+-e "DB_DATABASE=konga" \
+pantsel/konga
+
+docker run --rm pantsel/konga:latest -c prepare -a postgres -u postgresql://konga:public@192.168.1.200
